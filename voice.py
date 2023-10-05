@@ -77,7 +77,6 @@ if __name__ == "__main__":
             print(filename)
             with open(os.path.join(BASE_DIR, filename), 'r') as file:
                 text_to_speak = file.read().replace('\n', ' ')  # Load the content and strip line returns
-            print(k)
             # Set the input wav file based on the txt file's name up to the first hyphen
             audio_sample_base = filename.split('-')[0]
             audio_sample_path = os.path.join(INPUT_DIR, audio_sample_base + '.wav')
