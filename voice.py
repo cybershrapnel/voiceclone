@@ -69,37 +69,37 @@ if __name__ == "__main__":
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-    while True:  # Infinite loop to keep searching for txt files
-        k=0
-        for filename in os.listdir(BASE_DIR):  # Search in the base directory
-            if filename.endswith('.txt'):
-                print("found text to generate")
-                print(filename)
-                with open(os.path.join(BASE_DIR, filename), 'r') as file:
-                    text_to_speak = file.read().replace('\n', ' ')  # Load the content and strip line returns
-                print(k)
-                # Set the input wav file based on the txt file's name up to the first hyphen
-                audio_sample_base = filename.split('-')[0]
-                audio_sample_path = os.path.join(INPUT_DIR, audio_sample_base + '.wav')
-                print(audio_sample_path)
-                print(text_to_speak)
-                cloned_audio = clone_voice(audio_sample_path, text_to_speak)
 
-                # Save the cloned audio with the same name as the txt file but with .wav extension
-                output_filename = os.path.splitext(filename)[0] + '.wav'
-                output_path = os.path.join(OUTPUT_DIR, output_filename)
-                print(output_path)
-                from scipy.io.wavfile import write as write_wav
-                write_wav(output_path, SAMPLE_RATE, cloned_audio)
+
+    for filename in os.listdir(BASE_DIR):  # Search in the base directory
+        if filename.endswith('.txt'):
+            print("found text to generate")
+            print(filename)
+            with open(os.path.join(BASE_DIR, filename), 'r') as file:
+                text_to_speak = file.read().replace('\n', ' ')  # Load the content and strip line returns
+            print(k)
+            # Set the input wav file based on the txt file's name up to the first hyphen
+            audio_sample_base = filename.split('-')[0]
+            audio_sample_path = os.path.join(INPUT_DIR, audio_sample_base + '.wav')
+            print(audio_sample_path)
+            print(text_to_speak)
+            cloned_audio = clone_voice(audio_sample_path, text_to_speak)
+
+            # Save the cloned audio with the same name as the txt file but with .wav extension
+            output_filename = os.path.splitext(filename)[0] + '.wav'
+            output_path = os.path.join(OUTPUT_DIR, output_filename)
+            print(output_path)
+            from scipy.io.wavfile import write as write_wav
+            write_wav(output_path, SAMPLE_RATE, cloned_audio)
                 
-                time.sleep(5)
-                # Move the processed txt file to the completed directory
-                try:
-                    shutil.move(os.path.join(BASE_DIR, filename), os.path.join(COMPLETED_DIR, filename))
-                except Exception as e:
-                    print(f"Error moving {os.path.join(BASE_DIR, filename)} to {os.path.join(COMPLETED_DIR, filename)}. Error: {e}")
+            time.sleep(5)
+            # Move the processed txt file to the completed directory
+            try:
+                shutil.move(os.path.join(BASE_DIR, filename), os.path.join(COMPLETED_DIR, filename))
+            except Exception as e:
+                print(f"Error moving {os.path.join(BASE_DIR, filename)} to {os.path.join(COMPLETED_DIR, filename)}. Error: {e}")
 
-                # If no txt files are found in the script directory, look in the Q:\ directory
-            k=k+1
-        print("restarting")
+            # If no txt files are found in the script directory, look in the Q:\ directory
+
+
         time.sleep(5)  # Wait for 5 seconds before searching again
