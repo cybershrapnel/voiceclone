@@ -61,12 +61,17 @@ def clone_voice(audio_filepath, text_prompt):
 
 
 if __name__ == "__main__":
-    output_directory = 'J:\\music\\bark2\\video-retalking'
+    output_directory = 'output'
     completed_dir = 'completed'
+    input_dir = 'input'
 
     # Ensure the completed directory exists
     if not os.path.exists(completed_dir):
         os.makedirs(completed_dir)
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+    if not os.path.exists(input_dir):
+        os.makedirs(input_dir)
 
     while True:  # Infinite loop to keep searching for txt files
         k=0
@@ -79,7 +84,7 @@ if __name__ == "__main__":
                 print(k)
                 # Set the input wav file based on the txt file's name up to the first hyphen
                 audio_sample_base = filename.split('-')[0]
-                audio_sample_path = os.path.join('J:\\music', audio_sample_base + '.wav')
+                audio_sample_path = os.path.join('input', audio_sample_base + '.wav')
                 print(audio_sample_path)
                 print(text_to_speak)
                 cloned_audio = clone_voice(audio_sample_path, text_to_speak)
@@ -102,17 +107,5 @@ if __name__ == "__main__":
 
                 # If no txt files are found in the script directory, look in the Q:\ directory
             k=k+1
-        
-        for filename in os.listdir('Q:\\'):
-            if filename.endswith('.txt'):
-                source_path = os.path.join('Q:\\', filename)
-                destination_path = os.path.join('.', filename)
-                #shutil.move(source_path, destination_path)
-                try:
-                    shutil.move(source_path, destination_path)
-                except Exception as e:
-                    print(f"Error moving {source_path} to {destination_path}. Error: {e}")
-
-                print("found new file in downloads")
         print("restarting")
         time.sleep(5)  # Wait for 5 seconds before searching again
